@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="../static/styles.css">
+   <link 
+      rel="stylesheet" 
+      href="https://cdnjs.cloudflare.com/ajax.libs/font-awesome/5.15.2/css/all.min.css"
+      integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/Cul7qx08w=="
+      crossorigin="anonymous"
+   />
+   <link rel="stylesheet" href="{{url_for('static', filename = 'css/styles.css')}}">
+   <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+   />
+   <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      crossorigin="anonymous"
+   />
+
+   <title>{% block title %} Document {% endblock %} </title>
+</head>
+<body>
+   <nav class="navbar navbar-dark bg-dark" style="padding-top: 2px ;padding-bottom:2px; padding-left: 10px;">
+	  <a class="navbar-brand"><h1></h1></a>
+	  <ul class="list-group list-group-horizontal">
+			<li class="list-group-item list-group-item-action bg-dark text-white"><a class="nav-link text-white" href="/profile">Back</a></li>
+	  </ul>
+	</nav>
+
+   <center>
+   <h1 style="margin-top: 20px;">Profile Picture</h1>
+   <br> <br> 
+   
+   
+   <form action="/set_image" enctype="multipart/form-data" method="POST">
+    <input type="file" name="pic"/>
+    <input type="submit" value="Upload image"/>
+   </form>
+   <br><br>
+
+   </center>
+   
+   <br><br>
+
+
+   <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+   ></script>
+   <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+   ></script>
+   <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+   ></script>
+</body>
+</html>

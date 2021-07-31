@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   <link rel="stylesheet" href="{{url_for('static', filename = 'css/styles.css')}}">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+   <style>
+    #searchbar {
+      background-image: url('https://www.w3schools.com/css/searchicon.png');
+      background-position: 10px 10px;
+      background-repeat: no-repeat;
+      width: 100%;
+      font-size: 16px;
+      padding: 12px 20px 12px 40px;
+      border: 1px solid #ddd;
+      margin-bottom: 12px;
+    }
+  </style>
+  
+   <title>{% block title %} Document {% endblock %} </title>
+</head>
+<body>
+   
+   <nav class="navbar navbar-inverse navbar-expand-sm bg-primary" style="padding-top: 2px ;padding-bottom:2px; padding-left: 10px;">
+     <a class="navbar-brand text-white"><h2>HEXACORP</h2></a>
+     
+     <ul class="navbar-nav">
+         <li class="nav-item"><a style="padding-left: 10px;" class="nav-link text-white" href="/dashboard"><h5>Back</h5></a></li>
+         <li class="nav-item"><a style="padding-left: 10px;" class="nav-link text-white" href="/logout"><h5>Logout</h5></a></li>
+      </ul>
+	</nav>
+
+   {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %} 
+      {% for category, message in messages %}
+      {% if category == 'error' %} 
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+         {{ message }}
+         <button class="close" type="button" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+         </button>
+      </div>
+      {% else %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+         {{ message }}
+         <button class="close" type="button" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+         </button>
+      </div>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <br>
+      <br>
+   <div class="container w-100">
+         <div class="card">
+             <article class="card-body">
+    <div class="container">
+    <input type="text" id="searchbar" onkeyup="myFunction()" placeholder="Search Table....." title="Type in a name">
+        {% block content %} 
+        <form method="POST" action="/get_checkbox">
+          <table class = "table" id="user_data">
+           <thead>
+              <th scope="col">UID</td>
+              <th scope="col">Email</td>
+              <th scope="col">First Name</td>
+              <th scope="col">Last Name</td>
+              <th scope="col">Role</td>
+              <th scope="col">Address</td>
+              <th scope="col">DOB</td>
+              <th scope="col">Mobile</td>
+              <th scope="col">Gender</td>
+              <th scope="col">Select</td>
+              <th scope="col"></th>
+           </thead>
+
+           
+           {% for row in users %}
+           {%if row.role != "Super User"%}
+              <tr>
+                 <td>{{row.id}}</td>
+                 <td>{{row.email}}</td>
+                 <td>{{row.first_name}}</td>	
+                 <td>{{row.last_name}}</td>	
+                 <td>{{row.role}}</td>
+                 <td>{{row.addr}}</td>
+                 <td>{{row.dob}}</td>
+                 <td>{{row.phno}}</td>
+                 <td>{{row.gender}}</td>
+                 <td><input type="checkbox" name="myCheckBox" value="{{row.id}}"></td>
+                 <td><a href="/delete_user/{{row.id}}">Delete</a></td>
+                 
+              </tr>
+            {%endif%}
+           {% endfor %}
+            
+           
+        </table>
+        
+           <center>
+           <select name="role_dropdown" method="GET" id="role_dropdown">
+                <option value="{{roles[0]}}" selected>{{roles[0]}}</option>
+                {% for role in roles[1:] %}
+                    <option value= "{{role}}">{{role}}</option>
+                {% endfor %}
+            </select>
+            <div style="display:inline-block;">
+            </div>
+            <button class="btn btn-primary" onclick="UserAction()">Assign</button>
+            </center>
+         </form>
+        
+      {% endblock %}
+   </div>
+   </article>
+   </div>
+   </div>
+
+   
+
+   <script>
+function myFunction() {
+  var input, filter, table, tr, i, txtValue;
+  var td0,td1,td2,td3,td4,td5,td6,td7,td8,td9;
+  var txtValue0,txtValue1,txtValue2,txtValue3,txtValue4,txtValue5,txtValue6,txtValue7,txtValue8,txtValue9;
+
+  input = document.getElementById("searchbar");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("user_data");
+  tr = table.getElementsByTagName("tr");
+
+  for (i = 0; i < tr.length; i++) {
+    
+    td0 = tr[i].getElementsByTagName("td")[0];
+    td1 = tr[i].getElementsByTagName("td")[1];
+    td2 = tr[i].getElementsByTagName("td")[2];
+    td3 = tr[i].getElementsByTagName("td")[3];
+    td4 = tr[i].getElementsByTagName("td")[4];
+    td5 = tr[i].getElementsByTagName("td")[5];
+    td6 = tr[i].getElementsByTagName("td")[6];
+    td7 = tr[i].getElementsByTagName("td")[7];
+    td8 = tr[i].getElementsByTagName("td")[8];
+
+    if(td0||td1||td2||td3||td4||td5||td6||td7||td8) {
+      txtValue0 = td0.textContent || td0.innerText;
+      txtValue1 = td1.textContent || td1.innerText;
+      txtValue2 = td2.textContent || td2.innerText;
+      txtValue3 = td3.textContent || td3.innerText;
+      txtValue4 = td4.textContent || td4.innerText;
+      txtValue5 = td5.textContent || td5.innerText;
+      txtValue6 = td6.textContent || td6.innerText;
+      txtValue7 = td7.textContent || td7.innerText;
+      txtValue8 = td8.textContent || td8.innerText;
+
+      if(txtValue0.toUpperCase().indexOf(filter) > -1 || txtValue1.toUpperCase().indexOf(filter) > -1 ||
+         txtValue2.toUpperCase().indexOf(filter) > -1 || txtValue3.toUpperCase().indexOf(filter) > -1 || 
+         txtValue4.toUpperCase().indexOf(filter) > -1 || txtValue5.toUpperCase().indexOf(filter) > -1 || 
+         txtValue6.toUpperCase().indexOf(filter) > -1 || txtValue7.toUpperCase().indexOf(filter) > -1 ||
+         txtValue8.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+
+}
+
+function UserAction() {
+   if(confirm("Are you sure you want to update user roles?")){
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+           if (this.readyState == 4 && this.status == 200) {
+               alert(this.responseText);
+           }
+      };
+      xhttp.open("POST", "/get_checkbox", true);
+   } else {
+      return;
+   }
+}
+</script>
+</body>
+</html>

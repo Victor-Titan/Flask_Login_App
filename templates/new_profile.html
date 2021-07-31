@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="{{url_for('static', filename = 'css/styles.css')}}">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+   </head>
+   <body>
+      <nav class="navbar navbar-inverse navbar-expand-sm bg-primary" style="padding-top: 2px ;padding-bottom:2px; padding-left: 10px;">
+     <a class="navbar-brand text-white"><h2>HEXACORP</h2></a>
+     
+     <ul class="navbar-nav">
+         <li class="nav-item"><a style="padding-left: 10px;" class="nav-link text-white" href="/dashboard"><h5>Back</h5></a></li>
+         <li class="nav-item"><a style="padding-left: 10px;" class="nav-link text-white" href="/logout"><h5>Logout</h5></a></li>
+      </ul>
+	</nav>
+   {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %} 
+      {% for category, message in messages %}
+      {% if category == 'error' %} 
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+         {{ message }}
+         <button class="close" type="button" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+         </button>
+      </div>
+      {% else %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+         {{ message }}
+         <button class="close" type="button" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+         </button>
+      </div>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <div class="container">
+         <div class="main-body">
+            <!-- Breadcrumb -->
+            
+            <br>
+            <!-- /Breadcrumb -->
+            <div class="row gutters-sm">
+               <div class="col-md-4 mb-3">
+                  <div class="card">
+                     <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                           <img src="{{url_for('display_image')}}" class="rounded-circle" width="200" height="200">
+                           <br>
+                           <h4>{{user.first_name}} {{user.last_name}}</h4>
+                           
+                           <form action="/profile" enctype="multipart/form-data" method="POST">
+                           
+                              <button type="submit" class="btn btn-info" style="margin: 0 20px;">Upload</button>
+                              <label for="pic" class="btn btn-info" style="margin: 0 20px;">Browse</label>
+                              <input type="file" class="btn btn-info" name="pic" id="pic" style="opacity: 0; position: absolute; z-index: -1;" />
+                              
+                            
+                           </form>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-8">
+                  <div class="card mb-3">
+                     <div class="card-body">
+                        <div class="row">
+                           <div class="col-sm-3">
+                              <h6 class="mb-0">Full Name</h6>
+                           </div>
+                           <div class="col-sm-9 text-secondary">
+                              {{user.first_name}} {{user.last_name}}
+                           </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                           <div class="col-sm-3">
+                              <h6 class="mb-0">Email</h6>
+                           </div>
+                           <div class="col-sm-9 text-secondary">
+                              {{user.email}}
+                           </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                           <div class="col-sm-3">
+                              <h6 class="mb-0">Phone</h6>
+                           </div>
+                           <div class="col-sm-9 text-secondary">
+                              {{user.phno}}
+                           </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                           <div class="col-sm-3">
+                              <h6 class="mb-0">Address</h6>
+                           </div>
+                           <div class="col-sm-9 text-secondary">
+                              {{user.addr}}
+                           </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                           <div class="col-sm-3">
+                              <h6 class="mb-0">Date of Birth</h6>
+                           </div>
+                           <div class="col-sm-9 text-secondary">
+                              {{user.dob}}
+                           </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                           <div class="col-sm-3">
+                              <h6 class="mb-0">Age</h6>
+                           </div>
+                           <div class="col-sm-9 text-secondary">
+                              {{age}}
+                           </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                           <div class="col-sm-12">
+                              <a class="btn btn-info " href="/edit-profile">Edit</a>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  
+                     
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>
