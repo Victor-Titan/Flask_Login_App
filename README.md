@@ -7,7 +7,7 @@ Simple login Flask web application where a verification link is sent to your ema
 Use the below command to install all dependencies of the project.
 
  ```bash
- pip freeze > requirements.txt
+ pip install -r requirements.txt
  ```
 
  You can deploy the web app on your local server by running ```alchemy.py```
